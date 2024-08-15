@@ -4,31 +4,34 @@ import com.example.demo.domain.Categoria;
 import com.example.demo.domain.Console;
 import com.example.demo.domain.Jogo;
 import com.example.demo.domain.Plataforma;
-import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class JogoDTO {
+public class JogoBuscaDTO {
+
     private String nome;
     private Double preco;
     private String descricao;
-    private List<Categoria> categorias;
-    private Plataforma plataforma;
-    private List<Console> consoles;
+//    private List<Categoria> categorias;
+    private String plataforma;
+//    private List<Console> consoles;
     private Double desconto;
 
-    public Jogo toJogo(){
-        Jogo jogo = new Jogo();
-        jogo.setNome(nome);
-        jogo.setPreco(preco);
-        jogo.setDescricao(descricao);
-        //categoria
-        //plataforma
-        //consoles
-        if(desconto != null)
-            jogo.setDesconto(desconto);
+    public List<JogoBuscaDTO> toJogoBuscaDTO (List<Jogo> jogos){
+        List<JogoBuscaDTO> dtoList = new ArrayList<JogoBuscaDTO>();
 
-        return jogo;
+        for (Jogo jogo : jogos) {
+            JogoBuscaDTO dto = new JogoBuscaDTO();
+            dto.nome = jogo.getNome();
+            dto.preco = jogo.getPreco();
+            dto.descricao = jogo.getDescricao();
+            dto.desconto = jogo.getDesconto();
+            //        this.plataforma = jogo.getPlataforma().getNome();
+
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     public String getNome() {
@@ -55,28 +58,12 @@ public class JogoDTO {
         this.descricao = descricao;
     }
 
-    public List<Categoria> getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
-    }
-
-    public Plataforma getPlataforma() {
+    public String getPlataforma() {
         return plataforma;
     }
 
-    public void setPlataforma(Plataforma plataforma) {
+    public void setPlataforma(String plataforma) {
         this.plataforma = plataforma;
-    }
-
-    public List<Console> getConsoles() {
-        return consoles;
-    }
-
-    public void setConsoles(List<Console> consoles) {
-        this.consoles = consoles;
     }
 
     public Double getDesconto() {
