@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JogoRepository extends JpaRepository<Jogo, Long> {
-
-    @Query("SELECT j FROM Categoria j WHERE j.id = ?1")
-    public Jogo buscaPorId(Long id);
 }

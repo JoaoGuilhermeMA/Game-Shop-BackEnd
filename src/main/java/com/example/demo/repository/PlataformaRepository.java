@@ -8,8 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlataformaRepository extends JpaRepository<Plataforma, Long> {
-
-    @Query("SELECT p FROM Plataforma p WHERE p.id = ?1")
-    public Plataforma buscaPorId(Long id);
 }
 

@@ -1,6 +1,7 @@
 package com.example.demo.service.custom;
 
 import com.example.demo.service.IService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -33,4 +34,14 @@ public abstract class GenericService<T, ID, REPO extends JpaRepository<T, ID>> i
     public T update(T entity, ID id) {
         return repository.save(entity);
     }
+
+    @Override
+    public T listById(ID id){
+        Optional<T> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        throw new EntityNotFoundException("Objeto de id " + id + " not found");
+    }
+
 }

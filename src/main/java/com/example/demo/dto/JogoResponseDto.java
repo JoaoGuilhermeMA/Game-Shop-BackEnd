@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JogoResponseDto extends  RepresentationModel<JogoRequestDto>{
-    private Long id;
     private String nome;
     private Double preco;
     private String descricao;

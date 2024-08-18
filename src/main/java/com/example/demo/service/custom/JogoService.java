@@ -10,16 +10,8 @@ import java.util.Optional;
 
 @Service
 public class JogoService extends GenericService<Jogo, Long, JogoRepository> {
-    private JogoRepository repository;
-
     public JogoService(JogoRepository repository) {
         super(repository);
-        this.repository = repository;
-    }
-
-    @Override
-    public Jogo listById(Long id) {
-        return repository.buscaPorId(id);
     }
 }
 

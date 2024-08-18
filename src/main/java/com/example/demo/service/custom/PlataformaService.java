@@ -10,15 +10,8 @@ import java.util.Optional;
 
 @Service
 public class PlataformaService extends GenericService<Plataforma, Long, PlataformaRepository>{
-    private PlataformaRepository repository;
 
     public PlataformaService(PlataformaRepository repository) {
         super(repository);
-        this.repository = repository;
-    }
-
-    @Override
-    public Plataforma listById(Long id) {
-        return repository.buscaPorId(id);
     }
 }
