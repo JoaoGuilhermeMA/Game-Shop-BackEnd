@@ -17,7 +17,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/plataformas")
+@RequestMapping("/plataformas/")
 @AllArgsConstructor
 public class PlataformaController {
 

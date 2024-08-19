@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.Categoria;
 import com.example.demo.domain.Jogo;
 import com.example.demo.domain.Plataforma;
 import com.example.demo.dto.JogoRequestDto;
 import com.example.demo.dto.JogoResponseDto;
+import com.example.demo.service.custom.CategoriaService;
 import com.example.demo.service.custom.JogoService;
+import com.example.demo.service.custom.PlataformaService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,6 +27,8 @@ import static java.util.stream.Collectors.toList;
 public class JogoController {
 
     private final JogoService service;
+    private final CategoriaService categoriaService;
+    private final PlataformaService plataformaService;
     private final ModelMapper mapper;
 
     @GetMapping
@@ -32,24 +38,19 @@ public class JogoController {
 
     @PostMapping
     public ResponseEntity<JogoResponseDto> create(@RequestBody JogoRequestDto jogo) {
-
         Jogo created = service.create(convertToEntity(jogo));
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(created.getId())
                 .toUri();
-
         return ResponseEntity.created(location).body(convertToDto(created));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<JogoResponseDto> listById(@PathVariable("id") Long id) {
-
         Jogo p = service.listById(id);
-        JogoResponseDto dto = mapper.map(p, JogoResponseDto.class);
-
+        JogoResponseDto dto = convertToDto(p);
         return ResponseEntity.ok(dto);
     }
 
@@ -61,27 +62,34 @@ public class JogoController {
 
     @PutMapping("{id}")
     public ResponseEntity<JogoResponseDto> update(@RequestBody JogoRequestDto requestDto, @PathVariable("id") Long id) {
-
         try {
-            Jogo j = service.listById(id);
+            service.listById(id);
         } catch (Exception e) {
-            return this.create(requestDto);
+            return create(requestDto);
         }
-
-        Jogo JogoUpdated = service.update(mapper.map(requestDto, Jogo.class), id);
-        return ResponseEntity.ok(convertToDto(JogoUpdated));
+        Jogo jogoUpdated = service.update(convertToEntity(requestDto), id);
+        return ResponseEntity.ok(convertToDto(jogoUpdated));
     }
 
-    private JogoResponseDto convertToDto(Jogo created) {
-        JogoResponseDto pessoaResponseDto = mapper.map(created, JogoResponseDto.class);
-        pessoaResponseDto.addLinks(created);
-        return pessoaResponseDto;
+    private JogoResponseDto convertToDto(Jogo jogo) {
+        JogoResponseDto dto = mapper.map(jogo, JogoResponseDto.class);
+        dto.addLinks(jogo);
+        return dto;
     }
 
-    private Jogo convertToEntity(JogoRequestDto jogo) {
-        Jogo entityJogo = mapper.map(jogo, Jogo.class);
-        Plataforma entityPlataforma = mapper.map(jogo.getPlataforma(), Plataforma.class);
-        entityJogo.setPlataforma(entityPlataforma);
-        return entityJogo;
+    private Jogo convertToEntity(JogoRequestDto jogoDto) {
+        Jogo jogoEntity = mapper.map(jogoDto, Jogo.class);
+
+        List<Categoria> categorias = jogoDto.getCategorias().stream()
+                .map(id -> categoriaService.listById(id))
+                .collect(Collectors.toList());
+        jogoEntity.setCategorias(categorias);
+
+        List<Plataforma> plataformas = jogoDto.getPlataformas().stream()
+                .map(id -> plataformaService.listById(id))
+                .collect(Collectors.toList());
+        jogoEntity.setPlataformas(plataformas);
+
+        return jogoEntity;
     }
 }

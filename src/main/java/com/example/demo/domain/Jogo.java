@@ -30,13 +30,9 @@ public class Jogo {
     @JoinTable(name = "jogo_categoria", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Categoria> categorias;
 
-    @ManyToOne
-    @JoinColumn(name = "plataforma_id")
-    private Plataforma plataforma;
-
-    @OneToMany
-    @JoinColumn(name = "console_id")
-    private List<Console> consoles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "jogo_plataforma", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "plataforma_id"))
+    private List<Plataforma> plataformas;
 
     @Column(nullable = false)
     private String urlImagem;
@@ -44,7 +40,7 @@ public class Jogo {
     @Column(nullable = true)
     private Double desconto;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private boolean deletado;
 }
 

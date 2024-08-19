@@ -26,10 +26,6 @@ public class Pedidos {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "pedido_console",joinColumns = @JoinColumn(name = "pedido_id"), inverseJoinColumns = @JoinColumn(name = "console_id"))
-    private List<Console> consoles;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
 

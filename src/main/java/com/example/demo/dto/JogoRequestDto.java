@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.example.demo.domain.Categoria;
+import com.example.demo.domain.Plataforma;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +16,8 @@ public class JogoRequestDto extends RepresentationModel<JogoRequestDto> {
     private String nome;
     private Double preco;
     private String descricao;
-    private List<Long> categoriaIds;
-    private PlataformaRequestDto plataforma;
-    private List<Long> consoleIds;
+    private List<Long> categorias;  // Alterado para lista de IDs
+    private List<Long> plataformas;  // Alterado para lista de IDs
+    private String urlImagem;
     private Double desconto;
 }
