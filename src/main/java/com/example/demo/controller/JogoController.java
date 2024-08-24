@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/jogos/")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class JogoController {
 
     private final JogoService service;

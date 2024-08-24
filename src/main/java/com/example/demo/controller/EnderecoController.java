@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/enderecos/")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class EnderecoController {
 
     EnderecoService service;
