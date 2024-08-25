@@ -16,6 +16,7 @@ public class PlataformaResponseDto extends RepresentationModel<PlataformaRespons
     private String nome;
     private String tipo;
     private String parceira;
+    private Boolean deletado;
 
     public void addLinks(Plataforma plataforma) {
         this.add(linkTo(PlataformaController.class).slash(plataforma.getId()).withSelfRel());

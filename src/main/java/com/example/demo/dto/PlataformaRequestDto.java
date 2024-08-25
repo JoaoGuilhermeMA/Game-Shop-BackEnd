@@ -13,4 +13,5 @@ public class PlataformaRequestDto extends RepresentationModel<PlataformaRequestD
     private String nome;
     private String tipo;
     private String parceira;
+    private Boolean deletado;
 }

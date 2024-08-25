@@ -31,7 +31,7 @@ public class PlataformaController {
     }
 
     @PostMapping
-    public ResponseEntity<PlataformaResponseDto> create(@RequestBody PlataformaRequestDto plataforma) {
+    public ResponseEntity<String> create(@RequestBody PlataformaRequestDto plataforma) {
 
         Plataforma created = service.create(convertToEntity(plataforma));
 
@@ -41,7 +41,7 @@ public class PlataformaController {
                 .buildAndExpand(created.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).body(convertToDto(created));
+        return ResponseEntity.ok("Plataforma cadastrada!");
     }
 
     @GetMapping("{id}")
@@ -60,7 +60,7 @@ public class PlataformaController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PlataformaResponseDto> update(@RequestBody PlataformaRequestDto requestDto, @PathVariable("id") Long id) {
+    public ResponseEntity<String> update(@RequestBody PlataformaRequestDto requestDto, @PathVariable("id") Long id) {
 
         try {
             Plataforma p = service.listById(id);
@@ -68,8 +68,7 @@ public class PlataformaController {
             return this.create(requestDto);
         }
 
-        Plataforma PlataformaUpdated = service.update(mapper.map(requestDto, Plataforma.class), id);
-        return ResponseEntity.ok(convertToDto(PlataformaUpdated));
+        return ResponseEntity.ok("Plataforma atualizada com sucesso!");
     }
 
     private PlataformaResponseDto convertToDto(Plataforma created) {
@@ -79,6 +78,9 @@ public class PlataformaController {
     }
 
     private Plataforma convertToEntity(PlataformaRequestDto plataforma) {
+        if(plataforma.getDeletado()){
+            plataforma.setDeletado(false);
+        }
         Plataforma entityPlataforma = mapper.map(plataforma, Plataforma.class);
         return entityPlataforma;
     }
