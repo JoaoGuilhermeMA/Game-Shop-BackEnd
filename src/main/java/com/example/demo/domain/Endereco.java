@@ -1,20 +1,20 @@
 package com.example.demo.domain;
 
+import com.example.demo.domain.generics.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Endereco {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usuario_id")
-    private Long id;
-
+@SQLDelete(sql = "UPDATE endereco SET deleted_at = CURRENT_TIMESTAMP where id=?")
+@SQLRestriction("deleted_at is null")
+public class Endereco  extends AbstractEntity {
     @Column(nullable = false)
     private String rua;
 

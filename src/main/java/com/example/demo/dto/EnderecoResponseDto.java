@@ -12,7 +12,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EnderecoResponseDto extends RepresentationModel<EnderecoRequestDto> {
+public class EnderecoResponseDto extends RepresentationModel<EnderecoResponseDto> {
     private String rua;
     private String complemento;
     private String numero;
@@ -21,7 +21,7 @@ public class EnderecoResponseDto extends RepresentationModel<EnderecoRequestDto>
     private String estado;
     private String pais;
 
-    public void addLinks(Endereco p){
-        this.add(linkTo(EnderecoController.class).slash(p.getId()).withSelfRel());
+    public void addLinks(Endereco endereco){
+        this.add(linkTo(EnderecoController.class).slash(endereco.getId()).withSelfRel());
     }
 }

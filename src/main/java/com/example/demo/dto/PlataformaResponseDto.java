@@ -12,12 +12,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlataformaResponseDto extends RepresentationModel<PlataformaRequestDto> {
+public class PlataformaResponseDto extends RepresentationModel<PlataformaResponseDto> {
     private String nome;
     private String tipo;
     private String parceira;
 
-    public void addLinks(Plataforma p){
-        this.add(linkTo(PlataformaController.class).slash(p.getId()).withSelfRel());
+    public void addLinks(Plataforma plataforma) {
+        this.add(linkTo(PlataformaController.class).slash(plataforma.getId()).withSelfRel());
     }
 }

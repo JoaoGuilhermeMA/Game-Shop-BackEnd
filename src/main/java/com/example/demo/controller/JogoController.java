@@ -32,25 +32,36 @@ public class JogoController {
     private final ModelMapper mapper;
 
     @GetMapping
-    public List<JogoResponseDto> listAll(){
-        return service.listAll().stream().map(this::convertToDto).collect(toList());
+    public List<JogoResponseDto> listAll() {
+        return service.listAll().stream()
+                .map(jogo -> {
+                    JogoResponseDto dto = convertToDto(jogo);
+                    dto.addLinks(jogo);
+                    return dto;
+                })
+                .collect(toList());
     }
 
+
     @PostMapping
-    public ResponseEntity<JogoResponseDto> create(@RequestBody JogoRequestDto jogo) {
-        Jogo created = service.create(convertToEntity(jogo));
+    public ResponseEntity<JogoResponseDto> create(@RequestBody JogoRequestDto jogoDto) {
+        Jogo created = service.create(convertToEntity(jogoDto));
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(created.getId())
                 .toUri();
+
         return ResponseEntity.created(location).body(convertToDto(created));
     }
 
+
     @GetMapping("{id}")
     public ResponseEntity<JogoResponseDto> listById(@PathVariable("id") Long id) {
-        Jogo p = service.listById(id);
-        JogoResponseDto dto = convertToDto(p);
+        Jogo j = service.listById(id);
+        JogoResponseDto dto = convertToDto(j);
+        dto.addLinks(j);
         return ResponseEntity.ok(dto);
     }
 
@@ -60,22 +71,25 @@ public class JogoController {
         service.deleteById(id);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<JogoResponseDto> update(@RequestBody JogoRequestDto requestDto, @PathVariable("id") Long id) {
-        try {
-            service.listById(id);
-        } catch (Exception e) {
-            return create(requestDto);
-        }
-        Jogo jogoUpdated = service.update(convertToEntity(requestDto), id);
-        return ResponseEntity.ok(convertToDto(jogoUpdated));
+@PutMapping("{id}")
+public ResponseEntity<JogoResponseDto> update(@RequestBody JogoRequestDto requestDto, @PathVariable("id") Long id) {
+    try {
+        Jogo j = service.listById(id);
+    } catch (Exception e) {
+        return this.create(requestDto);
     }
+    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n oi n\n\n\n\n\n\n");
+    Jogo JogoUpdated = service.update(mapper.map(requestDto, Jogo.class),id);
+    return ResponseEntity.ok(convertToDto(JogoUpdated));
+}
 
-    private JogoResponseDto convertToDto(Jogo jogo) {
-        JogoResponseDto dto = mapper.map(jogo, JogoResponseDto.class);
-        dto.addLinks(jogo);
-        return dto;
-    }
+
+private JogoResponseDto convertToDto(Jogo created) {
+    JogoResponseDto dto = mapper.map(created, JogoResponseDto.class);
+    dto.addLinks(created);
+    return dto;
+}
+
 
     private Jogo convertToEntity(JogoRequestDto jogoDto) {
         Jogo jogoEntity = mapper.map(jogoDto, Jogo.class);

@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import com.example.demo.domain.enums.CategoriasJogo;
+import com.example.demo.domain.generics.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,12 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Categoria {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Categoria extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private CategoriasJogo categoriasJogo;
 

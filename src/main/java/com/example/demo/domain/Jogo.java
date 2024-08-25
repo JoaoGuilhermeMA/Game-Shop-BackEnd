@@ -1,9 +1,13 @@
 package com.example.demo.domain;
 
+import com.example.demo.domain.generics.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
 
@@ -11,12 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Jogo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "jogo_id")
-    private Long id;
-
+@SQLDelete(sql = "UPDATE jogo SET deleted_at = CURRENT_TIMESTAMP where id=?")
+@SQLRestriction("deleted_at is null")
+public class Jogo extends AbstractEntity {
     @Column(nullable = false)
     private String nome;
 
@@ -28,6 +29,7 @@ public class Jogo {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "jogo_categoria", joinColumns = @JoinColumn(name = "jogo_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    @JsonIgnore
     private List<Categoria> categorias;
 
     @ManyToMany(fetch = FetchType.LAZY)

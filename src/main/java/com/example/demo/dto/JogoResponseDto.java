@@ -1,6 +1,8 @@
 package com.example.demo.dto;
 
+import com.example.demo.controller.CategoriaController;
 import com.example.demo.controller.JogoController;
+import com.example.demo.controller.PlataformaController;
 import com.example.demo.domain.Categoria;
 import com.example.demo.domain.Jogo;
 import com.example.demo.domain.Plataforma;
@@ -25,7 +27,8 @@ public class JogoResponseDto extends RepresentationModel<JogoResponseDto> {
     private String urlImagem;
     private Double desconto;
 
-    public void addLinks(Jogo jogo){
+    public void addLinks(Jogo jogo) {
         this.add(linkTo(JogoController.class).slash(jogo.getId()).withSelfRel());
     }
+
 }

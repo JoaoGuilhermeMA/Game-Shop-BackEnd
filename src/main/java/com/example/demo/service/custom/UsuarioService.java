@@ -10,15 +10,8 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService extends GenericService<Usuario, Long, UsuarioRepository> {
-    private UsuarioRepository repository;
 
     public UsuarioService(UsuarioRepository repository) {
         super(repository);
-        this.repository = repository;
-    }
-
-    @Override
-    public Usuario listById(Long id) {
-        return repository.buscaPorId(id);
     }
 }
