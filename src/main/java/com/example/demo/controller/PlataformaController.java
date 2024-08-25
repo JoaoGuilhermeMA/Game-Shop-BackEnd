@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/plataformas/")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class PlataformaController {
 
     PlataformaService service;
