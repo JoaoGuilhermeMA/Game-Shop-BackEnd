@@ -45,7 +45,7 @@ public class JogoController {
 
 
     @PostMapping
-    public ResponseEntity<JogoResponseDto> create(@RequestBody JogoRequestDto jogoDto) {
+    public ResponseEntity<String> create(@RequestBody JogoRequestDto jogoDto) {
         Jogo created = service.create(convertToEntity(jogoDto));
 
         URI location = ServletUriComponentsBuilder
@@ -54,7 +54,7 @@ public class JogoController {
                 .buildAndExpand(created.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).body(convertToDto(created));
+        return ResponseEntity.ok("Jogo cadastrado!");
     }
 
 
@@ -68,28 +68,28 @@ public class JogoController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
         service.deleteById(id);
+        return ResponseEntity.ok("Jogo indisponível");
     }
 
-@PutMapping("{id}")
-public ResponseEntity<JogoResponseDto> update(@RequestBody JogoRequestDto requestDto, @PathVariable("id") Long id) {
-    try {
-        Jogo j = service.listById(id);
-    } catch (Exception e) {
-        return this.create(requestDto);
+    @PutMapping("{id}")
+    public ResponseEntity<String> update(@RequestBody JogoRequestDto requestDto, @PathVariable("id") Long id) {
+        try {
+            Jogo j = service.listById(id);
+        } catch (Exception e) {
+            this.create(requestDto);
+        }
+        Jogo JogoUpdated = service.update(mapper.map(requestDto, Jogo.class),id);
+        return ResponseEntity.ok("Jogo alterado com sucesso");
     }
-    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n oi n\n\n\n\n\n\n");
-    Jogo JogoUpdated = service.update(mapper.map(requestDto, Jogo.class),id);
-    return ResponseEntity.ok(convertToDto(JogoUpdated));
-}
 
 
-private JogoResponseDto convertToDto(Jogo created) {
-    JogoResponseDto dto = mapper.map(created, JogoResponseDto.class);
-    dto.addLinks(created);
-    return dto;
-}
+    private JogoResponseDto convertToDto(Jogo created) {
+        JogoResponseDto dto = mapper.map(created, JogoResponseDto.class);
+        dto.addLinks(created);
+        return dto;
+    }
 
 
     private Jogo convertToEntity(JogoRequestDto jogoDto) {
