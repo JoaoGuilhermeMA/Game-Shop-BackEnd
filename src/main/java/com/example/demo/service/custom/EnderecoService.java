@@ -21,5 +21,6 @@ public class EnderecoService extends GenericService<Endereco, Long, EnderecoRepo
     public Endereco listById(Long id) {
         return repository.buscaPorId(id);
     }
+
 }
 

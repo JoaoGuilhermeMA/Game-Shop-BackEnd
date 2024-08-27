@@ -67,7 +67,7 @@ public class PedidosController {
         } catch (Exception e) {
             return create(requestDto);
         }
-        Pedidos pedidosUpdated = service.update(convertToEntity(requestDto), id);
+        Pedidos pedidosUpdated = service.update(convertToEntity(requestDto));
         return ResponseEntity.ok(convertToDto(pedidosUpdated));
     }
 

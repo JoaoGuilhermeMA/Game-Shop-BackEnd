@@ -80,7 +80,7 @@ public class JogoController {
         } catch (Exception e) {
             this.create(requestDto);
         }
-        Jogo JogoUpdated = service.update(mapper.map(requestDto, Jogo.class),id);
+        Jogo JogoUpdated = service.update(mapper.map(requestDto, Jogo.class));
         return ResponseEntity.ok("Jogo alterado com sucesso");
     }
 

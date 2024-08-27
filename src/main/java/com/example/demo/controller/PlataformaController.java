@@ -65,9 +65,11 @@ public class PlataformaController {
         try {
             Plataforma p = service.listById(id);
         } catch (Exception e) {
-            return this.create(requestDto);
+            this.create(requestDto);
         }
-
+        requestDto.setId(id);
+        Plataforma p = convertToEntity(requestDto);
+        service.update(p);
         return ResponseEntity.ok("Plataforma atualizada com sucesso!");
     }
 

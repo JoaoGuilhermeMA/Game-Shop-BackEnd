@@ -73,7 +73,7 @@ public class CategoriaController {
         } catch (Exception e) {
             this.create(requestDto);
         }
-        Categoria categoria = service.update(mapper.map(requestDto, Categoria.class),id);
+        Categoria categoria = service.update(mapper.map(requestDto, Categoria.class));
         return ResponseEntity.ok("Jogo alterado com sucesso");
     }
 

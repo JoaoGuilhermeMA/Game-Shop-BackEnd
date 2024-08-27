@@ -31,7 +31,7 @@ public abstract class GenericService<T, ID, REPO extends JpaRepository<T, ID>> i
     }
 
     @Override
-    public T update(T entity, ID id) {
+    public T update(T entity) {
         return this.repository.saveAndFlush(entity);
     }
 

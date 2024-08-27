@@ -60,7 +60,7 @@ public class UsuarioController {
         } catch (Exception e) {
             return create(requestDto);
         }
-        Usuario usuarioUpdated = service.update(convertToEntity(requestDto), id);
+        Usuario usuarioUpdated = service.update(convertToEntity(requestDto));
         return ResponseEntity.ok(convertToDto(usuarioUpdated));
     }
 

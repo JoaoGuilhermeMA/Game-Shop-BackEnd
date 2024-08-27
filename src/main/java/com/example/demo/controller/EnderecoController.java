@@ -68,7 +68,7 @@ public class EnderecoController {
             return this.create(requestDto);
         }
 
-        Endereco EnderecoUpdated = service.update(mapper.map(requestDto, Endereco.class), id);
+        Endereco EnderecoUpdated = service.update(mapper.map(requestDto, Endereco.class));
         return ResponseEntity.ok(convertToDto(EnderecoUpdated));
     }
 
