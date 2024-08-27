@@ -13,6 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlataformaResponseDto extends RepresentationModel<PlataformaResponseDto> {
+    private Long id;
     private String nome;
     private String tipo;
     private String parceira;
